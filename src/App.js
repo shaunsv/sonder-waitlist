@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCaHjrezZLcSuKf-MlbyD9kenOb3PFLHfVWt2QxDMwFW0uYbTo_Q2FWXLkxJ2cBvch/exec";
 
@@ -7,7 +7,14 @@ export default function SonderWaitlist() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(null);
+
+  useEffect(() => {
+    fetch(APPS_SCRIPT_URL)
+      .then((r) => r.json())
+      .then((data) => { if (data.success) setCount(data.count); })
+      .catch(() => setCount(null));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +39,7 @@ export default function SonderWaitlist() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      setCount((c) => c + 1);
+      setCount((c) => (c !== null ? c + 1 : 1));
       setSubmitted(true);
       setEmail("");
     } catch (err) {
@@ -251,7 +258,7 @@ export default function SonderWaitlist() {
                 </div>
                 {error && <p className="err-msg">{error}</p>}
                 <p className="meta">
-                  Join <span className="meta-a">{count.toLocaleString()}</span> people already on the waitlist.&nbsp;&nbsp;No spam. Ever.
+                  {count !== null && <>Join <span className="meta-a">{count.toLocaleString()}</span> people already on the waitlist.&nbsp;&nbsp;</>}No spam. Ever.
                 </p>
               </form>
             ) : (
@@ -262,7 +269,7 @@ export default function SonderWaitlist() {
                 </div>
                 <p className="ok-msg">We'll be in touch when Sonder launches. Tell one person.</p>
                 <p className="meta">
-                  Join <span className="meta-a">{count.toLocaleString()}</span> people already on the waitlist.
+                  {count !== null && <>Join <span className="meta-a">{count.toLocaleString()}</span> people already on the waitlist.</>}
                 </p>
               </div>
             )}
