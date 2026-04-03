@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0c0b">
+  <meta name="description" content="The AI that actually knows you. Waitlist open.">
+  <title>Sonder — The AI that actually knows you.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* === Variables === */
+    :root {
+      --void:       #0d0c0b;
+      --dusk:       #1a1917;
+      --ash:        #2c2a27;
+      --smoke:      #4a4744;
+      --stone:      #7a7672;
+      --parchment:  #f5f0e8;
+      --linen:      #ece7de;
+      --ember:      #b8894a;
+      --ember-glow: #d4a86a;
+    }
+
+    /* === Reset === */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* === Base === */
+    body {
+      background-color: var(--void);
+      background-image: radial-gradient(
+        circle at 50% 50%,
+        rgba(185, 137, 74, 0.04) 0%,
+        transparent 35vw
+      );
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* === Keyframes === */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes drawLine {
+      from { width: 0; }
+      to   { width: 60px; }
+    }
+
+    /* === Element 1: Wordmark === */
+    #wordmark {
+      position: fixed;
+      top: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant', Georgia, serif;
+      font-weight: 300;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) 200ms forwards;
+    }
+
+    /* === Content block === */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -40px;
+      width: 100%;
+      padding: 0 24px;
+    }
+
+    /* === Element 2: Hero headline === */
+    #hero {
+      font-family: 'Cormorant', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 52px;
+      color: var(--parchment);
+      max-width: 640px;
+      text-align: center;
+      line-height: 1.15;
+      opacity: 0;
+      animation: fadeUp 900ms cubic-bezier(0.4, 0, 0.2, 1) 400ms forwards;
+    }
+
+    /* === Element 3: Body copy === */
+    #body-copy {
+      margin-top: 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--stone);
+      max-width: 460px;
+      text-align: center;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) 650ms forwards;
+    }
+
+    /* === Element 4: Form unit === */
+    #form-unit {
+      margin-top: 44px;
+      width: 100%;
+      max-width: 440px;
+      opacity: 0;
+      animation: fadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) 850ms forwards;
+    }
+
+    #waitlist-form {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    #email-input {
+      flex: 1;
+      min-width: 0;
+      height: 52px;
+      padding: 0 20px;
+      background: var(--dusk);
+      border: 1px solid var(--ash);
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--linen);
+      outline: none;
+      transition: border-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #email-input::placeholder {
+      color: var(--smoke);
+    }
+
+    #email-input.input-error {
+      border-color: #8c4a3c;
+    }
+
+    #email-input:focus {
+      border-color: var(--ember);
+    }
+
+    #email-input:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    #submit-btn {
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      height: 52px;
+      padding: 0 28px;
+      background: var(--ember);
+      border: none;
+      border-radius: 0 4px 4px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--void);
+      cursor: pointer;
+      transition: background 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #submit-btn:hover {
+      background: var(--ember-glow);
+    }
+
+    #submit-btn.submitting,
+    #submit-btn.submitting:hover {
+      background: var(--dusk);
+      cursor: default;
+      pointer-events: none;
+    }
+
+    #btn-label {
+      position: relative;
+      z-index: 1;
+      transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #btn-line {
+      position: absolute;
+      left: calc(50% - 30px);
+      top: 50%;
+      margin-top: -1px;
+      height: 2px;
+      width: 0;
+      background: var(--ember);
+      z-index: 2;
+    }
+
+    #btn-line.draw {
+      animation: drawLine 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* === Element 5: Footer === */
+    #footer {
+      position: fixed;
+      bottom: 32px;
+      left: 0;
+      right: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      color: var(--smoke);
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 600ms cubic-bezier(0.4, 0, 0.2, 1) 1100ms forwards;
+    }
+
+    /* === Mobile === */
+    @media (max-width: 600px) {
+      #hero {
+        font-size: 36px;
+      }
+
+      #body-copy {
+        font-size: 15px;
+      }
+
+      #waitlist-form {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      #email-input {
+        border-right: 1px solid var(--ash);
+        border-radius: 4px;
+        width: 100%;
+      }
+
+      #email-input:focus {
+        border-color: var(--ember);
+      }
+
+      #submit-btn {
+        border-radius: 4px;
+        width: 100%;
+      }
+    }
+
+    /* === Reduced motion === */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="wordmark">SONDER</div>
+
+  <div class="content">
+
+    <h1 id="hero">The AI that actually knows you.</h1>
+
+    <p id="body-copy">You&#8217;ve been writing your life story in fragments across apps that don&#8217;t talk to each other. Sonder reads everything&#8202;&#8212;&#8202;and tells you what you can&#8217;t see yourself.</p>
+
+    <div id="form-unit">
+      <!-- Replace action="#" with your form endpoint (Formspree, Supabase function, or Google Sheets webhook) -->
+      <form id="waitlist-form" action="#" novalidate>
+        <input
+          id="email-input"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          autocapitalize="none"
+          inputmode="email"
+          spellcheck="false"
+        >
+        <button id="submit-btn" type="submit">
+          <span id="btn-label">BEGIN</span>
+          <span id="btn-line"></span>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <p id="footer">Waitlist open. No spam. One email when we&#8217;re ready.</p>
+
+  <script>
+    (function () {
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxCaHjrezZLcSuKf-MlbyD9kenOb3PFLHfVWt2QxDMwFW0uYbTo_Q2FWXLkxJ2cBvch/exec';
+
+      var form       = document.getElementById('waitlist-form');
+      var emailInput = document.getElementById('email-input');
+      var submitBtn  = document.getElementById('submit-btn');
+      var btnLabel   = document.getElementById('btn-label');
+      var btnLine    = document.getElementById('btn-line');
+      var bodyCopy   = document.getElementById('body-copy');
+
+      var done = false;
+
+      // Clear error as soon as the field is focused
+      emailInput.addEventListener('focus', function () {
+        emailInput.classList.remove('input-error');
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (done) return;
+
+        var email = emailInput.value.trim();
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailInput.classList.add('input-error');
+          emailInput.focus();
+          return;
+        }
+
+        done = true;
+
+        // t = 0 ms — enter submitting state
+        submitBtn.classList.add('submitting');
+        btnLabel.style.color = 'var(--stone)';
+        btnLabel.textContent = '\u2014'; // em dash
+        btnLine.classList.add('draw');
+
+        // POST — fire and forget (no-cors, no response body available)
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email:     email,
+            localTime: new Date().toLocaleString(),
+            timezone:  Intl.DateTimeFormat().resolvedOptions().timeZone,
+            referrer:  document.referrer || 'Direct',
+            userAgent: navigator.userAgent,
+            country:   'Unknown'
+          })
+        }).catch(function () {});
+
+        // t = 600 ms — checkmark appears, body copy begins cross-fade
+        setTimeout(function () {
+          btnLabel.style.color = 'var(--parchment)';
+          btnLabel.textContent = '\u2713'; // check mark
+
+          bodyCopy.style.transition = 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)';
+          bodyCopy.style.opacity = '0';
+
+          // t = 900 ms — swap text, fade back in, lock input
+          setTimeout(function () {
+            bodyCopy.textContent = 'You\u2019re in. We\u2019ll reach out when it\u2019s ready.';
+            emailInput.disabled = true;
+            bodyCopy.style.opacity = '1';
+          }, 300);
+
+        }, 600);
+      });
+    }());
+  </script>
+
+</body>
+</html>
